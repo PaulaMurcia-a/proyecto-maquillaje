@@ -1,0 +1,6 @@
+id,nombre,marca,tipo_piel_id,categoria_id,estado
+1,base,Maybelline,1,1,activo
+2,contorno,MAC,2,1,inactivo
+3,sombra brillante ,NYX,3,3,activo
+5,gloss,trendy,5,2,activo
+10,base mate,samy,2,1,activo
