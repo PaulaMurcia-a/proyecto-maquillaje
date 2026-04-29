@@ -15,7 +15,7 @@ def get_productos():
 
 
 
-# CREATE (con validación)
+# PRODUCTO
 
 def create_producto(producto: Producto):
     try:
@@ -40,17 +40,11 @@ def create_producto(producto: Producto):
     df.to_csv(FILE, index=False)
 
 
-
-# GET BY ID
-
 def get_producto_by_id(producto_id: int):
     df = pd.read_csv(FILE)
     result = df[(df["id"] == producto_id) & (df["estado"] == "activo")]
     return result.to_dict(orient="records")
 
-
-
-# UPDATE
 
 def update_producto(producto_id: int, updated: Producto):
     df = pd.read_csv(FILE)
@@ -68,8 +62,6 @@ def update_producto(producto_id: int, updated: Producto):
     df.to_csv(FILE, index=False)
     return True
 
-
-#CAMBIAR
 
 def cambiar_estado_producto(producto_id: int, estado: str):
     df = pd.read_csv(FILE)
@@ -91,8 +83,6 @@ def cambiar_estado_producto(producto_id: int, estado: str):
 
     return "actualizado"
 
-
-# DELETE
 
 def delete_producto(producto_id: int):
     df = pd.read_csv(FILE)
@@ -196,6 +186,18 @@ def create_categoria(categoria):
 
     df = pd.concat([df, pd.DataFrame([categoria])], ignore_index=True)
     df.to_csv(CATEGORIAS_FILE, index=False)
+
+
+def update_categoria(cat_id, updated):
+    df = pd.read_csv(CATEGORIAS_FILE)
+
+    if cat_id not in df["id"].values:
+        return False
+
+    df.loc[df["id"] == cat_id, "nombre"] = updated["nombre"]
+    df.to_csv(CATEGORIAS_FILE, index=False)
+    return True
+
 
 
 def buscar_categoria(nombre: str):
