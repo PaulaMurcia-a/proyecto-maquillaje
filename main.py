@@ -3,6 +3,7 @@ from categoria import Categoria
 from tipos_piel import TipoPiel
 from producto import Producto
 from service import *
+import csv
 
 app = FastAPI()
 
@@ -101,15 +102,21 @@ def buscar(nombre: str):
 # TIPOS DE PIEL
 
 
-@app.get("/tipos_piel/id_piel")
-def tipos_piel():
-    return [
-        {"id": 1, "nombre": "Grasa", "descripcion": "Exceso de grasa"},
-        {"id": 2, "nombre": "Seca", "descripcion": "Exceso de resequedad"},
-        {"id": 3, "nombre": "Mixta", "descripcion": "Partes grasas y otras secas"},
-        {"id": 4, "nombre": "Sensible", "descripcion": "De irratacion facil "},
-        {"id": 5, "nombre": "Normal", "descripcion": " Equilibrada"},
-    ]
+@app.get("/tipos_piel/{id_piel}")
+def obtener_tipo_piel(id_piel: int):
+    with open("data/tipos_piel.csv", mode="r", encoding="utf-8") as archivo:
+        lector = csv.DictReader(archivo)
+
+        for fila in lector:
+            if int(fila["id"]) == id_piel:
+                return {
+                    "id": int(fila["id"]),
+                    "nombre": fila["nombre"],
+                    "descripcion": fila["descripcion"]
+                }
+
+    # Si no encuentra el ID
+    raise HTTPException(status_code=404, detail="Tipo de piel no encontrado")
 
 @app.get("/tipos_piel/nombre/")
 def buscar_tipo(nombre: str):
