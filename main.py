@@ -155,7 +155,12 @@ def actualizar_categoria(cat_id: int, categoria: Categoria):
         raise HTTPException(404, "No encontrada")
     return {"mensaje": "Actualizada"}
 
-
 @app.get("/categorias/buscar/")
 def buscar_cat(nombre: str):
     return buscar_categoria(nombre)
+
+@app.delete("/categorias/{cat_id}")
+def eliminar_categoria(cat_id: int):
+    if not delete_categoria(cat_id):
+        raise HTTPException(404, "No encontrada")
+    return {"mensaje": "Eliminada"}
