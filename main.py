@@ -102,21 +102,9 @@ def buscar(nombre: str):
 # TIPOS DE PIEL
 
 
-@app.get("/tipos_piel/{id_piel}")
-def obtener_tipo_piel(id_piel: int):
-    with open("data/tipos_piel.csv", mode="r", encoding="utf-8") as archivo:
-        lector = csv.DictReader(archivo)
-
-        for fila in lector:
-            if int(fila["id"]) == id_piel:
-                return {
-                    "id": int(fila["id"]),
-                    "nombre": fila["nombre"],
-                    "descripcion": fila["descripcion"]
-                }
-
-    # Si no encuentra el ID
-    raise HTTPException(status_code=404, detail="Tipo de piel no encontrado")
+@app.get("/tipos_piel")
+def listar_tipos_piel():
+    return get_tipos_piel()
 
 @app.get("/tipos_piel/nombre/")
 def buscar_tipo(nombre: str):

@@ -99,6 +99,11 @@ def delete_producto(producto_id: int):
 
 # TIPOS DE PIEL
 
+def get_tipos_piel():
+    df = pd.read_csv(TIPOS_FILE)
+    return df.to_dict(orient="records")
+
+
 def recomendar_productos(tipo_piel_id: int):
     df = pd.read_csv(FILE)
     return df[
