@@ -169,7 +169,13 @@ def filtrar_productos(nombre=None, marca=None):
         df = df[df["nombre"].str.lower().str.contains(nombre.lower())]
 
     if marca:
-        df = df[df["marca"].str.lower().str.contains(marca.lower())]
+        df = df[
+            df["marca"]
+            .astype(str)
+            .str.strip()
+            .str.lower()
+            .str.contains(marca.lower())
+        ]
 
     return df.to_dict(orient="records")
 
