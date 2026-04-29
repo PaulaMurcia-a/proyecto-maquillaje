@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from categoria import Categoria
+from tipos_piel import TipoPiel
 from producto import Producto
 from service import *
 
@@ -111,6 +112,25 @@ def tipos_piel():
 @app.get("/tipos_piel/nombre/")
 def buscar_tipo(nombre: str):
     return buscar_tipo_piel(nombre)
+
+@app.post("/tipos_piel")
+def crear_tipo(tipo: TipoPiel):
+    create_tipo_piel(tipo.dict())
+    return {"mensaje": "Creado"}
+
+
+@app.put("/tipos_piel/{tipo_id}")
+def actualizar_tipo(tipo_id: int, tipo: TipoPiel):
+    if not update_tipo_piel(tipo_id, tipo.dict()):
+        raise HTTPException(404, "No encontrado")
+    return {"mensaje": "Actualizado"}
+
+
+@app.delete("/tipos_piel/{tipo_id}")
+def eliminar_tipo(tipo_id: int):
+    if not delete_tipo_piel(tipo_id):
+        raise HTTPException(404, "No encontrado")
+    return {"mensaje": "Eliminado"}
 
 #CATEGORIAS
 

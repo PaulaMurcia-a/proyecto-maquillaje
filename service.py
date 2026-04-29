@@ -107,7 +107,7 @@ def delete_producto(producto_id: int):
 
 
 
-# FILTRO POR PIEL
+# TIPOS DE PIEL
 
 def recomendar_productos(tipo_piel_id: int):
     df = pd.read_csv(FILE)
@@ -126,6 +126,41 @@ def buscar_tipo_piel(nombre: str):
     ]
 
     return resultado.to_dict(orient="records")
+
+
+def create_tipo_piel(tipo):
+    df = pd.read_csv(TIPOS_FILE)
+
+    if tipo["id"] in df["id"].values:
+        raise ValueError("ID ya existe")
+
+    df = pd.concat([df, pd.DataFrame([tipo])], ignore_index=True)
+    df.to_csv(TIPOS_FILE, index=False)
+
+
+def update_tipo_piel(tipo_id, updated):
+    df = pd.read_csv(TIPOS_FILE)
+
+    if tipo_id not in df["id"].values:
+        return False
+
+    df.loc[df["id"] == tipo_id, ["nombre","descripcion"]] = [
+        updated["nombre"], updated["descripcion"]
+    ]
+
+    df.to_csv(TIPOS_FILE, index=False)
+    return True
+
+
+def delete_tipo_piel(tipo_id):
+    df = pd.read_csv(TIPOS_FILE)
+
+    if tipo_id not in df["id"].values:
+        return False
+
+    df = df[df["id"] != tipo_id]
+    df.to_csv(TIPOS_FILE, index=False)
+    return True
 
 
 
