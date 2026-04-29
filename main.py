@@ -13,7 +13,7 @@ def home():
 
 
 
-# CRUD
+#PRODUCTO
 
 
 @app.get("/productos")
@@ -58,6 +58,8 @@ def eliminar(producto_id: int):
         raise HTTPException(status_code=404, detail="Producto no encontrado")
 
     return {"mensaje": "Producto desactivado"}
+
+#ESTADO
 
 @app.put("/productos/{producto_id}/estado")
 def cambiar_estado(producto_id: int, estado: str):
@@ -146,6 +148,12 @@ def crear_categoria(categoria: Categoria):
         return {"mensaje": "Categoría creada"}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@app.put("/categorias/{cat_id}")
+def actualizar_categoria(cat_id: int, categoria: Categoria):
+    if not update_categoria(cat_id, categoria.dict()):
+        raise HTTPException(404, "No encontrada")
+    return {"mensaje": "Actualizada"}
 
 
 @app.get("/categorias/buscar/")
