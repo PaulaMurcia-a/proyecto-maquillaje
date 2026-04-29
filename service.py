@@ -199,7 +199,17 @@ def update_categoria(cat_id, updated):
     return True
 
 
-
 def buscar_categoria(nombre: str):
     df = pd.read_csv(CATEGORIAS_FILE)
     return df[df["nombre"].str.lower().str.contains(nombre.lower())].to_dict(orient="records")
+
+
+def delete_categoria(cat_id):
+    df = pd.read_csv(CATEGORIAS_FILE)
+
+    if cat_id not in df["id"].values:
+        return False
+
+    df = df[df["id"] != cat_id]
+    df.to_csv(CATEGORIAS_FILE, index=False)
+    return True
